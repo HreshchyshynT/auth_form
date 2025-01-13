@@ -1,8 +1,8 @@
-import "package:auth_form/auth/auth_bloc.dart";
-import "package:auth_form/auth/contract/auth_event.dart";
-import "package:auth_form/auth/widget/auth_button.dart";
-import "package:auth_form/auth/widget/auth_input.dart";
-import "package:auth_form/auth/widget/background.dart";
+import "package:auth_form/auth/presentation/auth_bloc.dart";
+import "package:auth_form/auth/presentation/contract/auth_event.dart";
+import "package:auth_form/auth/presentation/widget/auth_button.dart";
+import "package:auth_form/auth/presentation/widget/auth_input.dart";
+import "package:auth_form/auth/presentation/widget/background.dart";
 import "package:auth_form/theme/app_colors.dart";
 import "package:auth_form/theme/app_fonts.dart";
 import "package:auth_form/theme/app_strings.dart";

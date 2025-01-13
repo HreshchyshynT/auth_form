@@ -1,5 +1,5 @@
-import "package:auth_form/auth/auth_screen.dart";
-import "package:auth_form/auth/widget/background.dart";
+import "package:auth_form/auth/presentation/auth_screen.dart";
+import "package:auth_form/auth/presentation/widget/background.dart";
 import "package:flutter/material.dart";
 
 void main() {
