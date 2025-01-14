@@ -1,7 +1,8 @@
 import "package:auth_form/auth/domain/validation/email_error.dart";
 
 class EmailValidator {
-  static final _regExp = RegExp(r"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$");
+  static final _regExp = RegExp(
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
 
   EmailError? validate(String email) {
     if (email.isEmpty) {

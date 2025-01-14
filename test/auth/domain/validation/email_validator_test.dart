@@ -14,8 +14,16 @@ void main() {
 
     test("should return EmailError.wrongPattern when email is in wrong pattern",
         () {
-      final result = validator.validate("email");
-      expect(result, EmailError.wrongPattern);
+      for (final email in [
+        "email",
+        "email@",
+        "email@domain",
+        "email@domain.",
+        "email_domain.com",
+      ]) {
+        final result = validator.validate(email);
+        expect(result, EmailError.wrongPattern, reason: "email: $email");
+      }
     });
 
     test("should return null when email is valid", () {
