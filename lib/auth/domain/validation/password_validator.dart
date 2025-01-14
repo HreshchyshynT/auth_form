@@ -1,10 +1,3 @@
-// password validator which checks if the password fit the following rules:
-// 1. The password must be at least 8 characters long (no spaces)
-// 2. uppercase and lowercase letters
-// 3. at least one digit
-// validatate method should return List<PasswordError>? which will contain
-// error for each rule that is not met. If the password is valid, the method
-// should return null.
 import "package:auth_form/auth/domain/validation/password_error.dart";
 
 class PasswordValidator {

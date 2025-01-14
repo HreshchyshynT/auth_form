@@ -1,8 +1,3 @@
-// tests auth bloc for the following cases:
-// 1. no email errors emitted when user types email
-// 2. password error statuses are none if rules are not met when user types passwod
-// 3. email and password errors are emitted properly when user taps sign up button
-
 import "package:auth_form/auth/domain/validation/email_error.dart";
 import "package:auth_form/auth/domain/validation/password_error.dart";
 import "package:auth_form/auth/presentation/auth_bloc.dart";
@@ -115,7 +110,6 @@ void main() {
       });
     });
 
-    // test password errors become valid when password changes
     test("password errors become valid when password changes", () async {
       expect(bloc.state.passwordValidationStatus, {
         PasswordError.tooShort: ValidationStatus.none,
