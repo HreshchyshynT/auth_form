@@ -1,12 +1,15 @@
 import "package:auth_form/auth/domain/validation/email_validator.dart";
 import "package:auth_form/auth/domain/validation/password_validator.dart";
 import "package:auth_form/auth/presentation/contract/auth_event.dart";
+import "package:auth_form/auth/presentation/contract/auth_side_effect.dart";
 import "package:auth_form/auth/presentation/contract/auth_state.dart";
 import "package:auth_form/auth/presentation/model/validation_status.dart";
+import "package:auth_form/common/side_effect_producer.dart";
 import "package:bloc_concurrency/bloc_concurrency.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
-class AuthBloc extends Bloc<AuthEvent, AuthState> {
+class AuthBloc extends Bloc<AuthEvent, AuthState>
+    with SideEffectProducer<AuthSideEffect, AuthState> {
   AuthBloc() : super(AuthState.initial) {
     on<EmailChanged>(_onEmailChanged);
     on<PasswordChanged>(_onPasswordChanged);
@@ -79,5 +82,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             : ValidationStatus.valid,
       ),
     );
+    if (emailError == null &&
+        state.passwordValidationStatus.values
+            .every((s) => s == ValidationStatus.valid)) {
+      produceEffect(AuthSideEffect.displayAuthSuccess());
+    }
   }
 }

@@ -1,7 +1,10 @@
+import "dart:async";
+
 import "package:auth_form/auth/domain/validation/email_error.dart";
 import "package:auth_form/auth/domain/validation/password_error.dart";
 import "package:auth_form/auth/presentation/auth_bloc.dart";
 import "package:auth_form/auth/presentation/contract/auth_event.dart";
+import "package:auth_form/auth/presentation/contract/auth_side_effect.dart";
 import "package:auth_form/auth/presentation/contract/auth_state.dart";
 import "package:auth_form/auth/presentation/widget/auth_button.dart";
 import "package:auth_form/auth/presentation/widget/auth_input.dart";
@@ -32,8 +35,41 @@ class AuthScreen extends StatelessWidget {
   }
 }
 
-class AuthContent extends StatelessWidget {
+class AuthContent extends StatefulWidget {
   const AuthContent({super.key});
+
+  @override
+  State<AuthContent> createState() => _AuthContentState();
+}
+
+class _AuthContentState extends State<AuthContent> {
+  StreamSubscription? sideEffectSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    sideEffectSubscription =
+        context.read<AuthBloc>().sideEffects.listen((effect) {
+      final context = this.context;
+      if (!context.mounted) return;
+      switch (effect) {
+        case DisplaySuccess():
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              const SnackBar(
+                content: Text(AppStrings.signUpSuccess),
+              ),
+            );
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    sideEffectSubscription?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
