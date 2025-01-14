@@ -1,0 +1,5 @@
+enum EmailError {
+  empty,
+  wrongPattern,
+  ;
+}
