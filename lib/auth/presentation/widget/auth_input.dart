@@ -10,9 +10,11 @@ class AuthInput extends StatefulWidget {
     required this.value,
     required this.keyboardType,
     required this.textInputAction,
+    required this.isValid,
   });
 
   final String hint;
+  final bool isValid;
   final TextInputType keyboardType;
   final void Function(String) onChanged;
   final String value;
@@ -34,11 +36,11 @@ class _AuthInputState extends State<AuthInput> {
       keyboardType: widget.keyboardType,
       obscureText: isObscured,
       textInputAction: widget.textInputAction,
-      style: const TextStyle(
+      style: TextStyle(
         fontFamily: AppFonts.inter,
         fontWeight: FontWeight.w400,
         fontSize: 16.0,
-        color: AppColors.darkStateBlue,
+        color: widget.isValid ? AppColors.darkStateBlue : AppColors.borderError,
       ),
       decoration: InputDecoration(
         hoverColor: AppColors.transparent,
@@ -46,14 +48,14 @@ class _AuthInputState extends State<AuthInput> {
           vertical: 12.0,
           horizontal: 20.0,
         ),
-        hintStyle: const TextStyle(
+        hintStyle: TextStyle(
           fontFamily: AppFonts.inter,
           fontWeight: FontWeight.w400,
           fontSize: 16.0,
-          color: AppColors.blueGrey,
+          color: widget.isValid ? AppColors.blueGrey : AppColors.borderError,
         ),
         hintText: widget.hint,
-        fillColor: AppColors.white,
+        fillColor: widget.isValid ? AppColors.white : AppColors.backgroundError,
         filled: true,
         border: const OutlineInputBorder(
           borderRadius: AuthInput.borderRadius,
@@ -62,18 +64,20 @@ class _AuthInputState extends State<AuthInput> {
             width: 1.0,
           ),
         ),
-        enabledBorder: const OutlineInputBorder(
+        enabledBorder: OutlineInputBorder(
           borderRadius: AuthInput.borderRadius,
           borderSide: BorderSide(
             // todo: add is validation check
-            color: true ? AppColors.darkBlueAlpha20 : AppColors.borderError,
+            color: widget.isValid
+                ? AppColors.darkBlueAlpha20
+                : AppColors.borderError,
             width: 1.0,
           ),
         ),
-        focusedBorder: const OutlineInputBorder(
+        focusedBorder: OutlineInputBorder(
           borderRadius: AuthInput.borderRadius,
           borderSide: BorderSide(
-            color: AppColors.blueGrey,
+            color: widget.isValid ? AppColors.blueGrey : AppColors.borderError,
             width: 1.0, // Making focused border slightly thicker
           ),
         ),
@@ -82,7 +86,9 @@ class _AuthInputState extends State<AuthInput> {
                 iconSize: 20.0,
                 icon: Icon(
                   isObscured ? Icons.visibility : Icons.visibility_off,
-                  color: AppColors.blueGrey,
+                  color: widget.isValid
+                      ? AppColors.blueGrey
+                      : AppColors.borderError,
                 ),
                 onPressed: () => setState(() => isObscured = !isObscured),
               )

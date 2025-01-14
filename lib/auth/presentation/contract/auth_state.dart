@@ -16,6 +16,12 @@ final class AuthState extends Equatable {
   final Map<EmailError, ValidationStatus> emailValidationStatus;
   final Map<PasswordError, ValidationStatus> passwordValidationStatus;
 
+  bool get isPasswordValid => !passwordValidationStatus.values
+      .any((status) => status == ValidationStatus.invalid);
+
+  bool get isEmailValid => !emailValidationStatus.values
+      .any((status) => status == ValidationStatus.invalid);
+
   static const initial = AuthState(
     email: "",
     password: "",
