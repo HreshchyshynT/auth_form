@@ -110,8 +110,10 @@ class AuthContent extends StatelessWidget {
               width: 240.0,
               child: AuthButton(
                 text: AppStrings.signUpButton,
-                onTap: () =>
-                    context.read<AuthBloc>().add(AuthEvent.signUpTap()),
+                onTap: () {
+                  FocusManager.instance.primaryFocus?.unfocus();
+                  context.read<AuthBloc>().add(AuthEvent.signUpTap());
+                },
               ),
             ),
           ),
