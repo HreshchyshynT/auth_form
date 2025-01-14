@@ -67,7 +67,7 @@ class AuthContent extends StatelessWidget {
               value: state.email,
               keyboardType: TextInputType.emailAddress,
               textInputAction: TextInputAction.next,
-              isValid: state.isEmailValid,
+              validationStatus: state.emailInputStatus,
             ),
           ),
           Container(
@@ -92,7 +92,7 @@ class AuthContent extends StatelessWidget {
               value: state.password,
               keyboardType: TextInputType.visiblePassword,
               textInputAction: TextInputAction.done,
-              isValid: state.isPasswordValid,
+              validationStatus: state.passwordInputStatus,
             ),
           ),
           Container(

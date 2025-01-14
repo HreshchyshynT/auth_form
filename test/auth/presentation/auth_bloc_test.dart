@@ -138,5 +138,25 @@ void main() {
         PasswordError.noDigits: ValidationStatus.valid,
       });
     });
+
+    // test that email input status and password input status become only none or valid
+    // during input
+    test("email and password input statuses are none or valid", () async {
+      bloc.add(AuthEvent.emailChanged("not_completed_email"));
+      await Future.delayed(Duration.zero);
+      expect(bloc.state.emailInputStatus, ValidationStatus.none);
+
+      bloc.add(AuthEvent.emailChanged("not_completed_email@gmail.com"));
+      await Future.delayed(Duration.zero);
+      expect(bloc.state.emailInputStatus, ValidationStatus.valid);
+
+      bloc.add(AuthEvent.passwordChanged("Sh"));
+      await Future.delayed(Duration.zero);
+      expect(bloc.state.passwordInputStatus, ValidationStatus.none);
+
+      bloc.add(AuthEvent.passwordChanged("Valid1234"));
+      await Future.delayed(Duration.zero);
+      expect(bloc.state.passwordInputStatus, ValidationStatus.valid);
+    });
   });
 }

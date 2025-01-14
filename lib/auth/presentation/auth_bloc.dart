@@ -17,6 +17,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final _emailValidator = EmailValidator();
 
   void _onEmailChanged(EmailChanged event, Emitter<AuthState> emit) {
+    final emailError = _emailValidator.validate(event.email);
     emit(
       state.copyWith(
         email: event.email,
@@ -27,6 +28,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             value == ValidationStatus.invalid ? ValidationStatus.none : value,
           ),
         ),
+        emailInputStatus:
+            emailError == null ? ValidationStatus.valid : ValidationStatus.none,
       ),
     );
   }
@@ -45,6 +48,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 : ValidationStatus.valid,
           ),
         ),
+        passwordInputStatus: passwordErrors == null
+            ? ValidationStatus.valid
+            : ValidationStatus.none,
       ),
     );
   }
@@ -64,6 +70,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
                 : ValidationStatus.invalid,
           ),
         ),
+        emailInputStatus: emailError == null
+            ? ValidationStatus.valid
+            : ValidationStatus.invalid,
+        passwordInputStatus: state.passwordValidationStatus.values
+                .any((status) => status == ValidationStatus.none)
+            ? ValidationStatus.invalid
+            : ValidationStatus.valid,
       ),
     );
   }

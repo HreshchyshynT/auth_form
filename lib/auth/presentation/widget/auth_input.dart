@@ -1,3 +1,4 @@
+import "package:auth_form/auth/presentation/model/validation_status.dart";
 import "package:auth_form/theme/app_colors.dart";
 import "package:auth_form/theme/app_fonts.dart";
 import "package:flutter/material.dart";
@@ -10,11 +11,11 @@ class AuthInput extends StatefulWidget {
     required this.value,
     required this.keyboardType,
     required this.textInputAction,
-    required this.isValid,
+    required this.validationStatus,
   });
 
   final String hint;
-  final bool isValid;
+  final ValidationStatus validationStatus;
   final TextInputType keyboardType;
   final void Function(String) onChanged;
   final String value;
@@ -40,7 +41,11 @@ class _AuthInputState extends State<AuthInput> {
         fontFamily: AppFonts.inter,
         fontWeight: FontWeight.w400,
         fontSize: 16.0,
-        color: widget.isValid ? AppColors.darkStateBlue : AppColors.borderError,
+        color: switch (widget.validationStatus) {
+          ValidationStatus.invalid => AppColors.borderError,
+          ValidationStatus.valid => AppColors.green,
+          ValidationStatus.none => AppColors.darkStateBlue,
+        },
       ),
       decoration: InputDecoration(
         hoverColor: AppColors.transparent,
@@ -52,10 +57,16 @@ class _AuthInputState extends State<AuthInput> {
           fontFamily: AppFonts.inter,
           fontWeight: FontWeight.w400,
           fontSize: 16.0,
-          color: widget.isValid ? AppColors.blueGrey : AppColors.borderError,
+          color: switch (widget.validationStatus) {
+            ValidationStatus.invalid => AppColors.borderError,
+            ValidationStatus.valid => AppColors.green,
+            ValidationStatus.none => AppColors.blueGrey,
+          },
         ),
         hintText: widget.hint,
-        fillColor: widget.isValid ? AppColors.white : AppColors.backgroundError,
+        fillColor: widget.validationStatus.isInvalid
+            ? AppColors.backgroundError
+            : AppColors.white,
         filled: true,
         border: const OutlineInputBorder(
           borderRadius: AuthInput.borderRadius,
@@ -68,16 +79,22 @@ class _AuthInputState extends State<AuthInput> {
           borderRadius: AuthInput.borderRadius,
           borderSide: BorderSide(
             // todo: add is validation check
-            color: widget.isValid
-                ? AppColors.darkBlueAlpha20
-                : AppColors.borderError,
+            color: switch (widget.validationStatus) {
+              ValidationStatus.invalid => AppColors.borderError,
+              ValidationStatus.valid => AppColors.green,
+              ValidationStatus.none => AppColors.darkBlueAlpha20,
+            },
             width: 1.0,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: AuthInput.borderRadius,
           borderSide: BorderSide(
-            color: widget.isValid ? AppColors.blueGrey : AppColors.borderError,
+            color: switch (widget.validationStatus) {
+              ValidationStatus.invalid => AppColors.borderError,
+              ValidationStatus.valid => AppColors.green,
+              ValidationStatus.none => AppColors.blueGrey,
+            },
             width: 1.0, // Making focused border slightly thicker
           ),
         ),
@@ -86,9 +103,11 @@ class _AuthInputState extends State<AuthInput> {
                 iconSize: 20.0,
                 icon: Icon(
                   isObscured ? Icons.visibility : Icons.visibility_off,
-                  color: widget.isValid
-                      ? AppColors.blueGrey
-                      : AppColors.borderError,
+                  color: switch (widget.validationStatus) {
+                    ValidationStatus.invalid => AppColors.borderError,
+                    ValidationStatus.valid => AppColors.green,
+                    ValidationStatus.none => AppColors.blueGrey,
+                  },
                 ),
                 onPressed: () => setState(() => isObscured = !isObscured),
               )

@@ -9,18 +9,16 @@ final class AuthState extends Equatable {
     required this.password,
     required this.emailValidationStatus,
     required this.passwordValidationStatus,
+    this.emailInputStatus = ValidationStatus.none,
+    this.passwordInputStatus = ValidationStatus.none,
   });
 
   final String email;
   final String password;
   final Map<EmailError, ValidationStatus> emailValidationStatus;
   final Map<PasswordError, ValidationStatus> passwordValidationStatus;
-
-  bool get isPasswordValid => !passwordValidationStatus.values
-      .any((status) => status == ValidationStatus.invalid);
-
-  bool get isEmailValid => !emailValidationStatus.values
-      .any((status) => status == ValidationStatus.invalid);
+  final ValidationStatus emailInputStatus;
+  final ValidationStatus passwordInputStatus;
 
   static const initial = AuthState(
     email: "",
@@ -38,6 +36,8 @@ final class AuthState extends Equatable {
     String? password,
     Map<EmailError, ValidationStatus>? emailValidationStatus,
     Map<PasswordError, ValidationStatus>? passwordValidationStatus,
+    ValidationStatus? emailInputStatus,
+    ValidationStatus? passwordInputStatus,
   }) =>
       AuthState(
         email: email ?? this.email,
@@ -46,6 +46,8 @@ final class AuthState extends Equatable {
             emailValidationStatus ?? this.emailValidationStatus,
         passwordValidationStatus:
             passwordValidationStatus ?? this.passwordValidationStatus,
+        emailInputStatus: emailInputStatus ?? this.emailInputStatus,
+        passwordInputStatus: passwordInputStatus ?? this.passwordInputStatus,
       );
 
   @override
@@ -54,5 +56,7 @@ final class AuthState extends Equatable {
         password,
         emailValidationStatus,
         passwordValidationStatus,
+        emailInputStatus,
+        passwordInputStatus,
       ];
 }

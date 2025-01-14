@@ -3,4 +3,6 @@ enum ValidationStatus {
   valid,
   invalid,
   ;
+
+  bool get isInvalid => this == ValidationStatus.invalid;
 }
